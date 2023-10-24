@@ -24,19 +24,33 @@ using namespace std;
 int main()
 {
 	int PlayerX = 1;
-	int PlayerY = 3;
+	int PlayerY = 1;
 	char PlayerShape = 'P';
-	int Width = 11;
-	int Height = 13;
+	int Width = 12;
+	int Height = 12;
 	bool bIsRunning = true;
-
-	
 
 	while (bIsRunning)
 	{
 		int Key = _getch();
 
 		system("cls");
+
+		for (int i = 0; i <= Height; i++)
+		{
+			for (int j = 0; j <= Width; j++)
+			{
+				if (i == 0 || i == Height || j == 0 || j == Width)
+				{
+					cout << "*";
+				}
+				else
+				{
+					cout << " ";
+				}
+			}
+			cout << endl;
+		}
 
 		if (Key == 'a' || Key == 'A')
 		{
@@ -52,20 +66,20 @@ int main()
 		{
 			cout << "Up" << endl;
 			PlayerY--;
-			if (PlayerY < 3)
+			if (PlayerY < 1)
 			{
 				cout << "Can't Move" << endl;
-				PlayerY = 3;
+				PlayerY = 1;
 			}
 		}
 		else if (Key == 'd' || Key == 'D')
 		{
 			cout << "Right" << endl;
 			PlayerX++;
-			if (PlayerX > 13)
+			if (PlayerX > 11)
 			{
 				cout << "Can't Move" << endl;
-				PlayerX = 13;
+				PlayerX = 11;
 			}
 		}
 		else if (Key == 's' || Key == 'S')

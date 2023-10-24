@@ -5,11 +5,7 @@
       <FullPath>C:\Work\CPPLecture\L20231024\Project1\x64\Debug\Project1.exe</FullPath>
     </ProjectOutput>
   </ProjectOutputs>
-  <ContentFiles>
-    <ContentFile>
-      <FullPath>C:\Work\CPPLecture\L20231024\Project1\main.cpp</FullPath>
-    </ContentFile>
-  </ContentFiles>
+  <ContentFiles />
   <SatelliteDlls />
   <NonRecipeFileRefs />
 </Project>
