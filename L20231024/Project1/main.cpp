@@ -36,6 +36,7 @@ int main()
 
 		system("cls");
 
+		//Render();
 		for (int i = 0; i <= Height; i++)
 		{
 			for (int j = 0; j <= Width; j++)
