@@ -8,12 +8,10 @@ class FPlayer : public FCharacter
 public:
 	FPlayer();
 	~FPlayer();
-
-	void Move();
+	void Move() override;
 
 	//private은 만든 사람만 쓰라고 만드는 기능(캡슐화 encapsulation)
 //private:
 //	int HP;
 	//std::vector<int> Inventory;
 };
-

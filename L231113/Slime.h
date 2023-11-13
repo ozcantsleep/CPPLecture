@@ -3,9 +3,7 @@
 class FSlime : public FCharacter
 {
 public:
-    void Move();
-
     FSlime();
     ~FSlime();
+    void Move() override;
 };
-

@@ -10,8 +10,29 @@
 
 using namespace std;
 
+//meta programming
+//template<typename T>
+//class Countainer
+//{
+//public:
+//	Countainer()
+//	{
+//
+//	}
+//	~Countainer()
+//	{
+//
+//	}
+//
+//	T i;
+//};
+
 int main()
 {
+//	Countainer<int> MInt1;
+//	Countainer<float> MInt2;
+//	Countainer<FPlayer> MInt3;
+
 	vector<int> IntArray;
 
 	IntArray.push_back(1);
@@ -33,7 +54,29 @@ int main()
 	}
 
 	//FPlayer Players[10];
-	vector<FPlayer*> Players;
+
+	vector<FCharacter*> Characters;
+	Characters.push_back(new FPlayer());
+	Characters.push_back(new FGoblin());
+	Characters.push_back(new FBoar());
+	Characters.push_back(new FSlime());
+	for (auto find : Characters)
+	{
+		find->Move();
+	}
+
+	//vector<FPlayer*> Player;
+	//Player.push_back(new FPlayer());
+	//
+	//vector<FGoblin*> Goblins;
+	//Goblins.push_back(new FGoblin());
+	//
+	//vector<FBoar*> Boars;
+	//Boars.push_back(new FBoar());
+	//
+	//vector<FSlime*> Slimes;
+	//Slimes.push_back(new FSlime());
+
 
 	//FPlayer* MyPlayer = new FPlayer();
 	//MyPlayer->Move();

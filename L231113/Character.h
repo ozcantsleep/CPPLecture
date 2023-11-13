@@ -3,9 +3,9 @@ class FCharacter
 {
 public:
 	FCharacter();
-	~FCharacter();
+	virtual ~FCharacter();
 
-	void Move();
+	virtual void Move();
 
 	int GetHP()
 	{
