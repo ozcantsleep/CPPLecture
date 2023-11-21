@@ -26,9 +26,15 @@ public:
 		Y = NewY;
 	}
 
+	inline bool operator<(const AActor& RHS) const
+	{
+		return this->SortOrder < RHS.SortOrder;
+	}
+
 protected:
 	int X;
 	int Y;
+	int SortOrder;
 	char Shape;
 };
 
