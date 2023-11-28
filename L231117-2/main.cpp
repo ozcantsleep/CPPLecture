@@ -4,6 +4,7 @@
 #include "SimpleEngine.h"
 #include <vector>
 #include <algorithm>
+#include <fstream>
 
 using namespace std;
 
@@ -65,10 +66,10 @@ int main()
 	//cout << (NHRS[1] > NHRS[2]) << endl;
 	
 	SimpleEngine* MyEngine = GEngine;
-
+	
 	MyEngine->LoadLevel("a.smap");
 	MyEngine->Run();
-
+	
 	delete MyEngine;
 
 	return 0;

@@ -26,7 +26,8 @@ void AGameMode::Tick()
 	if (SimpleEngine::GetGameState()->IsNextLevel)
 	{
 		cout << "Complete" << endl;
-		GEngine->Stop();
+		//GEngine->Stop();
+		GEngine->LoadLevel("Data/Level02.smap");
 	}
 
 	if (SimpleEngine::GetGameState()->IsGameOver)
