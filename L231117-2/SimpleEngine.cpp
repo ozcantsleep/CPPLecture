@@ -7,18 +7,25 @@
 #include "Monster.h"
 #include "Goal.h"
 #include "Floor.h"
+#include "GameMode.h"
+#include "GameState.h"
 
 
 using namespace std;
 
+SimpleEngine* SimpleEngine::Instance = nullptr;
+int SimpleEngine::KeyCode = 0;
+
 SimpleEngine::SimpleEngine()
 {
+	GameMode = nullptr;
+	GameState = nullptr;
 	Init();
 }
 
 SimpleEngine::~SimpleEngine()
 {
-	Stop();
+	Term();
 }
 
 void SimpleEngine::Init()
@@ -31,8 +38,8 @@ void SimpleEngine::Run()
 {
 	while (IsRunning)
 	{
-		int KeyCode = Input();
-		Tick(KeyCode);
+		Input();
+		Tick();
 		system("cls");
 		Render();
 	}
@@ -45,16 +52,18 @@ void SimpleEngine::Stop()
 
 void SimpleEngine::Term()
 {
+	GameMode = nullptr;
+	GameState = nullptr;
 	IsRunning = false;
 	delete World;
 }
 
-void SimpleEngine::LoadLevel(std::string Filename)
+void SimpleEngine::LoadLevel(string Filename)
 {
 	//Save : Memory -> Disk SERIALIZE
 
 	//Load : Disk -> Memory DESERIALIZE
-	GetWorld()->SpawnActor(new APlayer(1, 1));
+	//GetWorld()->SpawnActor(new APlayer(1, 1));
 
 	string Map[10] =
 	{
@@ -71,7 +80,7 @@ void SimpleEngine::LoadLevel(std::string Filename)
 	};
 	for (int Y = 0; Y < 10; Y++)
 	{
-		for (int X = 0; X < 10; X++)
+		for (int X = 0; X < Map[Y].length(); X++)
 		{
 			if (Map[Y][X] == '*')
 			{
@@ -95,24 +104,31 @@ void SimpleEngine::LoadLevel(std::string Filename)
 			}
 			else if (Map[Y][X] == ' ')
 			{
-				//GetWorld()->SpawnActor(new AFloor(X, Y));
 				//Floor
 			}
 			//Floor
+			GetWorld()->SpawnActor(new AFloor(X, Y));
 		}
 	}
+
+	GetWorld()->SortRenderOrder();
+
+	GameMode = new AGameMode();
+	GetWorld()->SpawnActor(new AGameMode());
+	GameState = new AGameState();
+	GetWorld()->SpawnActor(new AGameState());
 
 }
 
 int SimpleEngine::Input()
 {
-	int KeyCode = _getch();
+	KeyCode = _getch();
 	return KeyCode;
 }
 
-void SimpleEngine::Tick(int KeyCode)
+void SimpleEngine::Tick()
 {
-	GetWorld()->Tick(KeyCode);
+	GetWorld()->Tick();
 }
 
 void SimpleEngine::Render()

@@ -2,6 +2,9 @@
 #include "Actor.h"
 #include "Wall.h"
 #include <iostream>
+#include <algorithm>
+
+using namespace std;
 
 UWorld::UWorld()
 {
@@ -9,6 +12,11 @@ UWorld::UWorld()
 
 UWorld::~UWorld()
 {
+	for (auto Actor : Actors)
+	{
+		delete Actor;
+	}
+	Actors.clear();
 }
 
 void UWorld::SpawnActor(AActor* NewActor)
@@ -19,11 +27,11 @@ void UWorld::SpawnActor(AActor* NewActor)
 	}
 }
 
-void UWorld::Tick(int KeyCode)
+void UWorld::Tick()
 {
 	for (auto Actor : Actors)
 	{
-		Actor->Tick(KeyCode);
+		Actor->Tick();
 	}
 }
 
@@ -33,4 +41,12 @@ void UWorld::Render()
 	{
 		Actor->Render();
 	}
+}
+
+void UWorld::SortRenderOrder()
+{
+	sort(Actors.begin(), Actors.end(), [](const AActor* LHS, const AActor* RHS)
+		{
+			return LHS->SortOrder < RHS->SortOrder;
+		});
 }

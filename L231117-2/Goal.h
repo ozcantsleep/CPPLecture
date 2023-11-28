@@ -5,13 +5,7 @@ class AGoal :
 {
 public:
     AGoal();
-    AGoal(int NewX, int NewY, char NewShape = 'G', int NewSortOrder = 1300)
-    {
-        Shape = NewShape;
-        SetX(NewX);
-        SetY(NewY);
-        SortOrder = NewSortOrder;
-    }
+    AGoal(int NewX, int NewY, char NewShape = 'G', int NewSortOrder = 1300);
     virtual ~AGoal();
 };
 

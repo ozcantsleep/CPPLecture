@@ -7,7 +7,7 @@ public:
 	virtual ~AActor();
 
 	virtual void BeginPlay();
-	virtual void Tick(int KeyCode);
+	virtual void Tick();
 	virtual void Render();
 	inline int GetX()  const
 	{
@@ -31,10 +31,17 @@ public:
 		return this->SortOrder < RHS.SortOrder;
 	}
 
+	inline bool operator>(const AActor& RHS) const
+	{
+		return this->SortOrder > RHS.SortOrder;
+	}
+
+	int SortOrder;
+	bool bCollide;
+
 protected:
 	int X;
 	int Y;
-	int SortOrder;
 	char Shape;
 };
 

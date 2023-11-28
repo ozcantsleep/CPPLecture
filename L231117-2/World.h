@@ -1,6 +1,8 @@
 #pragma once
 #include <vector>
 
+using namespace std;
+
 class AActor;
 
 class UWorld
@@ -10,8 +12,15 @@ public:
 	virtual ~UWorld();
 
 	void SpawnActor(AActor* NewActor);
-	void Tick(int KeyCode);
+	void Tick();
 	void Render();
+
+	void SortRenderOrder();
+
+	const vector<AActor*>& GetAllActors()
+	{
+		return Actors;
+	}
 
 protected:
 	std::vector<AActor*> Actors;

@@ -13,7 +13,9 @@ AActor::AActor(int NewX, int NewY)
 {
 	SetX(NewX);
 	SetY(NewY);
+	Shape = ' ';
 	SortOrder = 0;
+	bCollide = false;
 }
 
 AActor::~AActor()
@@ -24,7 +26,7 @@ void AActor::BeginPlay()
 {
 }
 
-void AActor::Tick(int KeyCode)
+void AActor::Tick()
 {
 }
 
