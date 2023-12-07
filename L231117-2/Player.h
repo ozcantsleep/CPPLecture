@@ -5,10 +5,16 @@ class APlayer :
 {
 public:
     APlayer();
-    APlayer(int NewX, int NewY, char NewShape = 'P', int NewSortOrder = 1500);
+    APlayer(int NewX, int NewY, char NewShape = 'P', int NewSortOrder = 1500, SDL_Color NewColor = SDL_Color{ 255, 0, 0, 0 });
     virtual ~APlayer();
 
     virtual void Tick() override;
+    virtual void Render() override;
     bool IsCollide(int NewX, int NewY);
+
+    Uint64 ProcessTime;
+    Uint64 ElapsedTime;
+    Uint8 SpriteIndex;
+    Uint8 SpriteDirection;
 };
 

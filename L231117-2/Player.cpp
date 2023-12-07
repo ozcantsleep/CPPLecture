@@ -10,58 +10,102 @@ APlayer::APlayer()
 	X = 10;
 	Y = 10;
 	SortOrder = 500;
+	SpriteIndex = 0;
+	SpriteDirection = 0;
+	ElapsedTime = 0;
+	ProcessTime = 400;
 }
 
-APlayer::APlayer(int NewX, int NewY, char NewShape, int NewSortOrder)
+APlayer::APlayer(int NewX, int NewY, char NewShape, int NewSortOrder, SDL_Color NewColor)
 {
 	Shape = NewShape;
 	SetX(NewX);
 	SetY(NewY);
 	SortOrder = NewSortOrder;
+	Color = NewColor;
+	LoadBMP("Data/Player.bmp", SDL_Color{ 255, 0, 255, 0 });
+	bIsSprite = true;
+	SpriteSizeX = 5;
+	SpriteSizeY = 5;
+	SpriteIndex = 0;
+	SpriteDirection = 0;
+	ElapsedTime = 0;
+	ProcessTime = 400;
 }
 
 APlayer::~APlayer()
 {
 }
 
+void APlayer::Render()
+{
+	__super::Render();
+
+	int SpriteWidth = MySurface->w / SpriteSizeX;
+	int SpriteHeight = MySurface->h / SpriteSizeY;
+	int StartX = SpriteIndex * SpriteWidth;
+	int StartY = SpriteDirection * SpriteHeight;
+
+	SDL_RenderCopy(GEngine->MyRenderer, MyTexture, new SDL_Rect{ StartX, StartY, SpriteWidth, SpriteHeight }, new SDL_Rect{ X * Size, Y * Size, Size, Size });
+}
+
 void APlayer::Tick()
 {
 	//AActor::Tick();
 	__super::Tick(); // 비주얼스튜디오 전용
-	int KeyCode = SimpleEngine::KeyCode;
 
-	if (KeyCode == 'A' || KeyCode == 'a')
+	ElapsedTime += GEngine->GetWorldDeltaSeconds();
+	if (ElapsedTime >= ProcessTime)
+	{
+		SpriteIndex++;
+		SpriteIndex = SpriteIndex % SpriteSizeX;
+		ElapsedTime;
+	}
+
+	int KeyCode = GEngine->MyEvent.key.keysym.sym;
+
+	if (GEngine->MyEvent.type == SDL_KEYDOWN)
+	{
+		return;
+	}
+
+
+	if (KeyCode == SDLK_a)
 	{
 		if (!IsCollide(X - 1, Y))
 		{
+			SpriteDirection = 0;
 			X--;
 		}
 	}
 
-	if (KeyCode == 'D' || KeyCode == 'd')
+	if (KeyCode == SDLK_d)
 	{
 		if (!IsCollide(X + 1, Y))
 		{
+			SpriteDirection = 1;
 			X++;
 		}
 	}
 
-	if (KeyCode == 'W' || KeyCode == 'w')
+	if (KeyCode == SDLK_w)
 	{
 		if (!IsCollide(X, Y - 1))
 		{
+			SpriteDirection = 2;
 			Y--;
 		}
 	}
 
-	if (KeyCode == 'S' || KeyCode == 's')
+	if (KeyCode == SDLK_s)
 	{
 		if (!IsCollide(X, Y + 1))
 		{
+			SpriteDirection = 3;
 			Y++;
 		}
 	}
-	if (KeyCode == 27)
+	if (KeyCode == SDLK_ESCAPE)
 	{
 		GEngine->Stop();
 	}

@@ -20,12 +20,18 @@ SimpleEngine::SimpleEngine()
 {
 	GameMode = nullptr;
 	GameState = nullptr;
+	SDL_Init(SDL_INIT_EVERYTHING);
+	MyWindow = SDL_CreateWindow("Hello World", 100, 100, 800, 600, SDL_WINDOW_VULKAN);
+	MyRenderer = SDL_CreateRenderer(MyWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC | SDL_RENDERER_TARGETTEXTURE);
 	Init();
 }
 
 SimpleEngine::~SimpleEngine()
 {
 	Term();
+	SDL_DestroyRenderer(MyRenderer);
+	SDL_DestroyWindow(MyWindow);
+	SDL_Quit();
 }
 
 void SimpleEngine::Init()
@@ -38,10 +44,31 @@ void SimpleEngine::Run()
 {
 	while (IsRunning)
 	{
+		DeltaSeconds = SDL_GetTicks64() - LastTime;
+		LastTime = SDL_GetTicks64();
+		//SDL_PollEvent(&MyEvent);
+		
 		Input();
+
+		switch (MyEvent.type)
+		{
+		case SDL_QUIT:
+			IsRunning = false;
+			break;
+		case SDL_KEYDOWN:
+			if (MyEvent.key.keysym.sym == SDLK_ESCAPE)
+			{
+				IsRunning = false;
+			}
+			break;
+		}
 		Tick();
-		system("cls");
+		//Clear Screen
+		//system("cls");
+		SDL_SetRenderDrawColor(GEngine->MyRenderer, 0, 0, 0, 0);
+		SDL_RenderClear(GEngine->MyRenderer);
 		Render();
+		SDL_RenderPresent(GEngine->MyRenderer);
 	}
 }
 
@@ -78,6 +105,8 @@ void SimpleEngine::LoadLevel(string Filename)
 	//	"*       G*",
 	//	"**********",
 	//};
+	Term();
+	Init();
 
 	int Y = 0;
 
@@ -105,16 +134,16 @@ void SimpleEngine::LoadLevel(string Filename)
 	GetWorld()->SortRenderOrder();
 
 	GameMode = new AGameMode();
-	GetWorld()->SpawnActor(new AGameMode());
+	GetWorld()->SpawnActor(GameMode);
 	GameState = new AGameState();
-	GetWorld()->SpawnActor(new AGameState());
+	GetWorld()->SpawnActor(GameState);
 
 }
 
-int SimpleEngine::Input()
+void SimpleEngine::Input()
 {
-	KeyCode = _getch();
-	return KeyCode;
+	//KeyCode = MyEvent.key.keysym.sym;
+	SDL_PollEvent(&MyEvent);
 }
 
 void SimpleEngine::Tick()
@@ -156,3 +185,8 @@ void SimpleEngine::LoadActor(int NewX, int NewY, char Actor)
 	//Floor
 	GetWorld()->SpawnActor(new AFloor(NewX, NewY));
 }
+
+//void SimpleEngine::SDL_RenderSetScale(float ScaleX, float ScaleY)
+//{
+//
+//}

@@ -11,13 +11,19 @@ int SDL_main(int argc, char* argv[])
 
 	SDL_Window* MyWindow = SDL_CreateWindow("HelloWorld", 400, 300, 800, 600, SDL_WINDOW_VULKAN); // 윈도우 만들기
 	SDL_Renderer* MyRenderer = SDL_CreateRenderer(MyWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC | SDL_RENDERER_TARGETTEXTURE); // 렌더러 만들기
+	Uint64 DeltaSeconds = 0;
+	Uint64 LastTime = 0;
 	SDL_Event MyEvent;
 
 	bool IsRunning = true;
 
 	while (IsRunning) // messaage loop
 	{
+		DeltaSeconds = SDL_GetTicks64() - LastTime;
+		LastTime = SDL_GetTicks64();
 		SDL_PollEvent(&MyEvent);
+		std::cout << DeltaSeconds << std::endl;
+
 		switch (MyEvent.type)
 		{
 		case SDL_QUIT:
@@ -34,7 +40,7 @@ int SDL_main(int argc, char* argv[])
 		SDL_SetRenderDrawColor(MyRenderer, 0xff, 0xff, 0xff, 0x00);
 		SDL_RenderClear(MyRenderer);
 
-		for (int i = 0; i < 50; i++)
+		for (int i = 0; i < 100000; i++)
 		{
 			int X = rand() % 700;
 			int Y = rand() % 500;

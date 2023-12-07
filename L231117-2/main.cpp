@@ -40,7 +40,7 @@ using namespace std;
 //	return false;
 //}
 
-int main()
+int SDL_main(int argc, char* argv[])
 {
 	//SimpleEngine* MyEngine = new SimpleEngine();
 	//MyEngine->LoadLevel("a.smap");

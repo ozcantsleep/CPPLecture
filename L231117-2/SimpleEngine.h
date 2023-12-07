@@ -1,5 +1,9 @@
 #pragma once
 #include <string>
+#include "SDL.h"
+
+#pragma comment(lib, "SDL2")
+#pragma comment(lib, "SDL2main")
 
 class UWorld;
 class AActor;
@@ -34,7 +38,7 @@ public:
 		return Instance;
 	}
 
-	static int KeyCode;
+	static SDL_Keycode KeyCode;
 	
 	static AGameState* GetGameState()
 	{
@@ -45,12 +49,26 @@ public:
 	{
 		return GetInstance()->GameMode;
 	}
+	
+	//void SDL_RenderSetScale(float ScaleX, float ScaleY);
+	static Uint64 GetWorldDeltaSeconds()
+	{
+		return GetInstance()->DeltaSeconds;
+	}
+	
+
+	SDL_Window* MyWindow;
+	SDL_Renderer* MyRenderer;
+	SDL_Event MyEvent;
+	Uint64 DeltaSeconds;
+	Uint64 LastTime;
+
 
 protected:
 	UWorld* World;
 	
 	bool IsRunning;
-	int Input();
+	void Input();
 	void Tick();
 	void Render();
 
@@ -61,5 +79,6 @@ protected:
 
 	void LoadActor(int NewX, int NewY, char Actor);
 };
+	
 
 #define GEngine SimpleEngine::GetInstance()

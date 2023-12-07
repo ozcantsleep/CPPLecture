@@ -4,6 +4,7 @@
 #include "Player.h"
 #include <iostream>
 #include "GameState.h"
+#include "SDL.h"
 
 AMonster::AMonster()
 {
@@ -13,14 +14,20 @@ AMonster::AMonster()
 	SortOrder = 300;
 	bCollide = false;
 	srand((unsigned int)time(nullptr));
+	ProcessTime = 500;
+	ElaspedTime = 0;
 }
 
-AMonster::AMonster(int NewX, int NewY, char NewShape, int NewSortOrder)
+AMonster::AMonster(int NewX, int NewY, char NewShape, int NewSortOrder, SDL_Color NewColor)
 {
 	Shape = NewShape;
 	SetX(NewX);
 	SetY(NewY);
 	SortOrder = NewSortOrder;
+	Color = NewColor;
+	ProcessTime = 500;
+	ElaspedTime = 0;
+	LoadBMP("Data/Slime.bmp");
 }
 
 AMonster::~AMonster()
@@ -33,6 +40,16 @@ void AMonster::Tick()
 	__super::Tick(); // 비주얼스튜디오 전용
 	//int KeyCode = SimpleEngine::KeyCode;
 	//random 4 direction udlr
+	ElaspedTime += GEngine->GetWorldDeltaSeconds();
+	if (ElaspedTime <= ProcessTime)
+	{
+		return;
+	}
+	else
+	{
+		ElaspedTime = 0;
+	}
+
 	for (const auto& Actor : GEngine->GetWorld()->GetAllActors())
 	{
 		APlayer* MyPlayer = dynamic_cast<APlayer*>(Actor);
@@ -77,16 +94,16 @@ void AMonster::Tick()
 			Y++;
 		}
 	}
-	for (const auto& Actor : GEngine->GetWorld()->GetAllActors())
-	{
-		APlayer* MyPlayer = dynamic_cast<APlayer*>(Actor);
-		if (MyPlayer &&
-			MyPlayer->GetX() == X &&
-			MyPlayer->GetY() == Y)
-		{
-			SimpleEngine::GetGameState()->IsGameOver = true;
-		}
-	}
+//	for (const auto& Actor : GEngine->GetWorld()->GetAllActors())
+//	{
+//		APlayer* MyPlayer = dynamic_cast<APlayer*>(Actor);
+//		if (MyPlayer &&
+//			MyPlayer->GetX() == X &&
+//			MyPlayer->GetY() == Y)
+//		{
+//			SimpleEngine::GetGameState()->IsGameOver = true;
+//		}
+//	}
 
 }
 
